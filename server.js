@@ -1,9 +1,14 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const cors = require('cors');
+
 
 const app = express();
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+app.use(cors());
 
 const database = {
 	users: [
@@ -23,16 +28,30 @@ const database = {
 			entries: 0,
 			joined: new Date()
 		},
+	],
+	login: [
+		{
+			id: '987',
+			hash: '',
+			email: 'john@gmail.com'
+		}
 	]
 }
 
 app.get('/', (req, res) => {
-	res.send('this is working');
+	res.json(database.users);
 })
 
 app.post('/signin', (req, res) => {
+	const hash = '$2b$10$YripV.m.oz5aG5Z/uU/f0uyHbNPfkChnweL9ByT2.CEu4oIGF2qvy';
+	bcrypt.compare("apples", hash, (err, res) => {
+		console.log('first guess', res)
+	});
+	bcrypt.compare("veggies", hash, (err, res) => {
+		console.log('second guess', res)
+	});
 	if (req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
-		res.json('success');
+		res.json(database.users[0]);
 	} else {
 		res.status(400).json('error logging in');
 	}
@@ -40,6 +59,9 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
 	const { email, password, name } = req.body;
+	bcrypt.hash(password, saltRounds, (err, hash) => {
+		console.log(hash);
+	});
 	database.users.push({
 		id: '125',
 		name: name,
@@ -80,15 +102,6 @@ app.put('/image', (req, res) => {
 	}
 })
 
-app.listen(3000, () => {
-	console.log("app is running on port 3000");
+app.listen(1234, () => {
+	console.log("app is running on port 1234");
 })
-
-
-/*
-/ --> res = this is working
-/signin --> POST = success/fail
-/register --> POST = user
-/profile/:userId --> GET = userId
-/image --> PUT = user
-*/
