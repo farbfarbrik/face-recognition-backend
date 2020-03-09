@@ -1,0 +1,32 @@
+// Create Tables
+CREATE TABLE table_name (column_1 datatype, column_2, datatype);
+
+// Insert
+INSERT INTO table_name (column_1, column_2) VALUES (value_1, 'value_2')
+
+// Read Data
+SELECT column_1, column_2 FROM table_name;
+SELECT * FROM table_name;
+
+// Edit Tables
+ALTER TABLE table_name ADD column datatype;
+UPDATE table_name SET some_column=some_value WHERE some_column=some_value;
+
+// Conditional Selections
+SELECT * FROM table_name WHERE column_name LIKE 'A%';
+SELECT * FROM table_name ORDER BY column_name DESC;
+
+// SQL Functions
+SELECT AVG(column_name) FROM table_name;
+SUM(column_name)
+COUNT(column_name)
+
+CREATE TABEL login (
+	ID serial NOT NULL PRIMARY KEY,
+	secret VARCHAR (100) NOT NULL,
+	name text UNIQUE NOT NULL
+);
+
+
+// JOINING Tables
+SELECT * FROM table1_name JOIN tabel2_name ON table1.name = table2.name;
