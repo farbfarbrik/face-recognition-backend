@@ -26,7 +26,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => { res.json(database.users) })
+app.get('/', (req, res) => { res.json('it is working') })
 
 app.post('/signin', signin.handleSignin(database, bcrypt, saltRounds))
 app.post('/register', register.handleRegister(database, bcrypt, saltRounds))
